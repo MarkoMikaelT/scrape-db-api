@@ -16,14 +16,13 @@ namespace ScrapeAPI.Clients
     public class SupaClient
     {
         readonly static Properties props = new();
-        private static string _table;
-        private static HttpClient _supaClient;
+        private static string _table = "";
+        private static readonly HttpClient _supaClient = new();
         public SupaClient(string connection, string apikey, string table)
         {
             _table = table;
-            _supaClient = new HttpClient();
             _supaClient.BaseAddress = new Uri($"{connection}");
-            _supaClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apikey}");
+            _supaClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apikey);
             _supaClient.DefaultRequestHeaders.Add("apikey", apikey);
             _supaClient.DefaultRequestHeaders.Add("Prefer", "return=minimal");
         }
