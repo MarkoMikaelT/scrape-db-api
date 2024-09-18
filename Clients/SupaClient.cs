@@ -48,7 +48,7 @@ namespace ScrapeAPI.Clients
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"Error fetching documents: {ex.Message}");
-                return new Response<string>("", HttpStatusCode.InternalServerError, "Uuups failure :(");
+                return new Response<string>("", HttpStatusCode.InternalServerError, "Uuups failure :( ");
             }
         }
 
