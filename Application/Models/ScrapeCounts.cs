@@ -1,4 +1,4 @@
-namespace ScrapeAPI.Models;
+namespace Application.Models;
 
 public class ScrapeCounts
 {

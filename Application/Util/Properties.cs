@@ -1,5 +1,5 @@
 
-namespace ScrapeAPI.Util
+namespace Application.Util
 {
     public class Properties{
          // Set up configuration builder with the path to the Properties folder

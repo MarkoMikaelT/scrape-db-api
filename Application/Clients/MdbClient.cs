@@ -1,10 +1,8 @@
 using System.Net;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using ScrapeAPI.Models;
+using Application.Models;
 
-namespace ScrapeAPI.Clients
+namespace Application.Clients
 {
     public class MdbClient<T>
     {
@@ -32,11 +30,15 @@ namespace ScrapeAPI.Clients
             }
         }
 
-        public async Task<Response<List<T>>> GetDocumentsByDateAsync(string date)
+        public async Task<Response<List<T>>> GetDocumentsBySetKeyAsync(string key, string value)
         {
             try
             {
-                var filter = Builders<T>.Filter.Eq("runDate", date);
+                var filter = Builders<T>.Filter.Eq(key, value);
+                var isNumeric = int.TryParse(value, out int numericValue);
+                if(isNumeric){
+                    filter = Builders<T>.Filter.Eq(key, numericValue);
+                }
                 var res = await _collection.Find(filter).ToListAsync();
                 Console.WriteLine($"List count -> {res.Count}");
                 return new Response<List<T>>(res, HttpStatusCode.OK, null);
@@ -44,7 +46,7 @@ namespace ScrapeAPI.Clients
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"Error fetching documents: {ex.Message}");
-                return new Response<List<T>>(new List<T>(), HttpStatusCode.InternalServerError, "Uuups failure :(");
+                return new Response<List<T>>([], HttpStatusCode.InternalServerError, "Uuups failure :(");
             }
         }
     

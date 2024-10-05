@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Http.Headers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using ScrapeAPI.Models;
-using ScrapeAPI.Util;
+using Application.Models;
+using Application.Util;
 using ZstdSharp.Unsafe;
 
-namespace ScrapeAPI.Clients
+namespace Application.Clients
 {
     public class SupaClient
     {
@@ -28,16 +28,12 @@ namespace ScrapeAPI.Clients
         }
 
 
-        public async Task<Response<string>> InsertRow(DateTime _dateTime, ScrapeCounts _counts, int _timestamp)
+        public async Task<Response<string>> InsertRows(List<SupaSchema> supaPosts)
         {
             try
             {
                 using StringContent jsonContent = new(
-                    JsonSerializer.Serialize( new{
-                        runDateTime = _dateTime,
-                        counts = _counts,
-                        mongoTimestamp = _timestamp
-                    }),
+                    JsonSerializer.Serialize(supaPosts),
                     Encoding.UTF8,
                     "application/json");
                 using HttpResponseMessage res = await _supaClient.PostAsync(_table, jsonContent);

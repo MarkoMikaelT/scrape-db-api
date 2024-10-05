@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ScrapeAPI.Models;
+namespace Application.Models;
 
 public class Scrape1
 {
@@ -57,8 +57,8 @@ public class Scrape1
     public int CheckedPages { get; set; }
 
     [BsonElement("runDate")]
-    public string RunDate { get; set; }
+    public string? RunDate { get; set; }
 
     [BsonElement("runTime")]
-    public string RunTime { get; set; }
+    public string? RunTime { get; set; }
 }
